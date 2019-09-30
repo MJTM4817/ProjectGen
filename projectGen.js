@@ -84,7 +84,6 @@ function fetchDir(path, projectName) {
     if (error) {
       console.log(error);
     } else {
-      console.log(fileNames);
       generate(projectName, fileNames);
     }
   });
