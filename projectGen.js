@@ -41,25 +41,59 @@ function writeFile(filePath, data) {
   });
 }
 
-function generate(projectName) {
-  let filePath = `./${projectName}`;
+// let filePath = `./${projectName}`;
 
-  fs.readdir(path, "utf8", callBack => {});
+//   createDir(filePath);
+//   createFile(filePath + "/.eslintrc.json");
 
+//   createFile(filePath + "/package.json");
+//   readFile("./ProjectTemplate/package.json", filePath + "/package.json");
+
+//   createFile(filePath + "/index.js");
+//   createFile(filePath + "/README.md");
+//   createFile(filePath + "/.gitignore");
+
+//   createDir(filePath + "/spec");
+//   createFile(filePath + "/spec/index.spec.js");
+
+function generate(projectName, fileNames) {
+  let filePath = `./${projectName}/`;
   createDir(filePath);
-  createFile(filePath + "/.eslintrc.json");
-
-  createFile(filePath + "/package.json");
-  readFile("./ProjectTemplate/package.json", filePath + "/package.json");
-
-  createFile(filePath + "/index.js");
-  createFile(filePath + "/README.md");
-  createFile(filePath + "/.gitignore");
-
-  createDir(filePath + "/spec");
-  createFile(filePath + "/spec/index.spec.js");
+  fileNames.map(file => {
+    if (file !== "spec") {
+      createFile(filePath + file);
+    }
+    if (file === "package.json") {
+      readFile("./ProjectTemplate/package.json", filePath + file);
+    }
+  });
+  createDir(filePath + "spec");
+  if (
+    !fs.stat(filePath + "spec", error => {
+      if (error) {
+        console.log(error);
+      } else {
+        createFile(filePath + "spec/index.spec.js");
+      }
+    })
+  );
 }
 
-generate("Cheryl's-Project");
+function fetchDir(path, projectName) {
+  fs.readdir(path, "utf8", (error, fileNames) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(fileNames);
+      generate(projectName, fileNames);
+    }
+  });
+}
+
+function temp(projectName) {
+  fetchDir("./ProjectTemplate", projectName);
+}
+
+temp("Cheryl-Project");
 
 module.exports = {};
