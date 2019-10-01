@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "generate": "./bin.generate-global.js"
+  },
+  "preferGlobal": true,
   "author": "",
   "license": "ISC",
   "devDependencies": {
